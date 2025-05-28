@@ -1,4 +1,3 @@
-
 class Sizes {
   // Widths (pixels thiết kế)
   static const double WIDTH_300 = 300.0;
@@ -16,6 +15,7 @@ class Sizes {
   static const double WIDTH_40 = 40.0;
   static const double WIDTH_32 = 32.0;
   static const double WIDTH_30 = 30.0;
+  static const double WIDTH_26 = 26.0;
   static const double WIDTH_25 = 25.0;
   static const double WIDTH_24 = 24.0;
   static const double WIDTH_22 = 22.0;
@@ -57,6 +57,7 @@ class Sizes {
   static const double HEIGHT_18 = 18.0;
   static const double HEIGHT_16 = 16.0;
   static const double HEIGHT_14 = 14.0;
+  static const double HEIGHT_12 = 12.0;
   static const double HEIGHT_10 = 10.0;
   static const double HEIGHT_8 = 8.0;
   static const double HEIGHT_4 = 4.0;

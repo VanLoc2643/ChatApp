@@ -10,3 +10,7 @@ class LoginImages {
   static const String kLogoGoogle = '${ImagePath.icons}/logo_google.svg';
   static const String kLogoGithub = '${ImagePath.icons}/logo_github.svg';
 }
+
+class HomeImages {
+  static const String kProfileImage = '${ImagePath.base}/profile.jpg';
+}

@@ -26,7 +26,7 @@ class AppColors {
   static const Color kSurfaceDark = Color(0xFF121212);
 
   // Màu chữ chính trên nền sáng
-  static const Color kTextPrimaryLight = Color(0xFF222222);
+  static const Color kTextPrimaryLight = Color(0xFF424242);
 
   // Màu chữ chính trên nền tối
   static const Color kTextPrimaryDark = Colors.white;
@@ -41,7 +41,9 @@ class AppColors {
   static const Color kError = Color(0xFFFF3333);
 
   static const Color statusOnline = Color(0xFF4BCB1F);
-  static const Color kLabelTextPrimary = Color(0xFF14304A);
+  static const Color kLabelTextPrimary = Color(0xFFBDBDBD);
   //Trắng
   static const Color kWhite = Colors.white;
+
+    static const Color kButtonWhite = Color.fromARGB(255, 255, 255, 255);
 }
