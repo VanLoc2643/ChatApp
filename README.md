@@ -1,16 +1,19 @@
-# appchat
+ChatApp
+Ứng dụng chat thời gian thực đa nền tảng, hỗ trợ kết bạn, nhắn tin, đa ngôn ngữ và chế độ sáng/tối.
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🚀 Tính năng nổi bật
+Đăng nhập bằng Google, Facebook
+Quản lý bạn bè: gửi, nhận, chấp nhận, hủy lời mời kết bạn
+Nhắn tin thời gian thực với bạn bè
+Tìm kiếm người dùng theo tên
+Đa ngôn ngữ: Tiếng Việt, Anh, Nhật, Trung, Đức
+Chế độ sáng/tối, tự động lưu theme
+Responsive UI (hỗ trợ cả điện thoại và tablet)
+🛠️ Công nghệ sử dụng
+Flutter (UI)
+Firebase Auth (Xác thực người dùng)
+Cloud Firestore (Lưu trữ dữ liệu)
+Provider (Quản lý trạng thái)
+GoRouter (Điều hướng)
+Device Preview, ScreenUtil (Responsive)
+Flutter Localizations (Đa ngôn ngữ)
