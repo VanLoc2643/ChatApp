@@ -1,5 +1,4 @@
 class Sizes {
-  // Widths (pixels thiết kế)
   static const double WIDTH_300 = 300.0;
   static const double WIDTH_236 = 236.0;
   static const double WIDTH_200 = 200.0;
@@ -32,7 +31,6 @@ class Sizes {
   static const double WIDTH_1 = 1.0;
   static const double WIDTH_0 = 0.0;
 
-  // Heights
   static const double HEIGHT_300 = 300.0;
   static const double HEIGHT_240 = 240.0;
   static const double HEIGHT_200 = 200.0;
@@ -65,7 +63,6 @@ class Sizes {
   static const double HEIGHT_2 = 2.0;
   static const double HEIGHT_1 = 1.0;
 
-  // Text Sizes (font sizes)
   static const double TEXT_SIZE_96 = 96.0;
   static const double TEXT_SIZE_60 = 60.0;
   static const double TEXT_SIZE_50 = 50.0;
@@ -87,7 +84,6 @@ class Sizes {
   static const double TEXT_SIZE_10 = 10.0;
   static const double TEXT_SIZE_8 = 8.0;
 
-  // Icon sizes
   static const double ICON_SIZE_50 = 50.0;
   static const double ICON_SIZE_40 = 40.0;
   static const double ICON_SIZE_32 = 32.0;
@@ -102,7 +98,6 @@ class Sizes {
   static const double ICON_SIZE_10 = 10.0;
   static const double ICON_SIZE_8 = 8.0;
 
-  // Radius
   static const double RADIUS_80 = 80.0;
   static const double RADIUS_70 = 70.0;
   static const double RADIUS_60 = 60.0;
@@ -122,7 +117,6 @@ class Sizes {
   static const double RADIUS_4 = 4.0;
   static const double RADIUS_0 = 0.0;
 
-  // Padding
   static const double PADDING_40 = 40.0;
   static const double PADDING_36 = 36.0;
   static const double PADDING_32 = 32.0;
@@ -139,7 +133,6 @@ class Sizes {
   static const double PADDING_2 = 2.0;
   static const double PADDING_0 = 0.0;
 
-  // Margin
   static const double MARGIN_200 = 200.0;
   static const double MARGIN_60 = 60.0;
   static const double MARGIN_48 = 48.0;
@@ -162,7 +155,6 @@ class Sizes {
   static const double MARGIN_4 = 4.0;
   static const double MARGIN_0 = 0.0;
 
-  // Elevation
   static const double ELEVATION_16 = 16.0;
   static const double ELEVATION_14 = 14.0;
   static const double ELEVATION_12 = 12.0;

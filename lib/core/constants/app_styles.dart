@@ -1,9 +1,7 @@
-import 'dart:ui';
-
 import 'package:appchat/core/constants/sizes.dart';
 import 'package:appchat/theme/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppStyles {
   static final TextStyle titleTextStyleLight = GoogleFonts.roboto(
@@ -45,21 +43,21 @@ class AppStyles {
   );
 
   static final TextStyle bodyLargeLight = GoogleFonts.roboto(
-    fontSize: Sizes.TEXT_SIZE_18,
+    fontSize: Sizes.TEXT_SIZE_20,
     color: AppColors.kTextPrimaryLight,
   );
 
   static final TextStyle bodyLargeDark = GoogleFonts.roboto(
-    fontSize: Sizes.TEXT_SIZE_18,
+    fontSize: Sizes.TEXT_SIZE_20,
     color: AppColors.kTextPrimaryDark,
   );
 
   static final TextStyle bodyMediumDark = GoogleFonts.roboto(
-    fontSize: Sizes.TEXT_SIZE_20,
+    fontSize: Sizes.TEXT_SIZE_18,
     color: AppColors.kTextPrimaryDark,
   );
   static final TextStyle bodyMediumLight = GoogleFonts.roboto(
-    fontSize: Sizes.TEXT_SIZE_20,
+    fontSize: Sizes.TEXT_SIZE_18,
     color: AppColors.kTextPrimaryLight,
   );
 
@@ -80,8 +78,19 @@ class AppStyles {
     fontSize: Sizes.TEXT_SIZE_12,
     color: AppColors.kTextSecondaryDark,
   );
-  static final TextStyle labelSmallLight = GoogleFonts.roboto(
+  static final TextStyle labelSmallLight = GoogleFonts.inter(
     fontSize: Sizes.TEXT_SIZE_12,
     color: AppColors.kLabelTextPrimary,
+  );
+  static final TextStyle labelMediumLight = GoogleFonts.rubik(
+    fontSize: Sizes.TEXT_SIZE_16,
+    color: AppColors.kLabelTextPrimary,
+  );
+
+  static final TextStyle labelLargeLight = GoogleFonts.rubik(
+    fontSize: Sizes.TEXT_SIZE_20,
+    color: AppColors.kButtonWhite,
+    letterSpacing: 0.2,
+    fontWeight: FontWeight.bold,
   );
 }

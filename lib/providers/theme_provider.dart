@@ -32,7 +32,7 @@ class ThemeProvider extends ChangeNotifier {
 
   Future<void> _saveTheme(ThemeMode mode) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('themeMode', mode.name); // name: "light", "dark", "system"
+    await prefs.setString('themeMode', mode.name);
   }
 
   Future<void> _loadTheme() async {

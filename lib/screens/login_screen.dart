@@ -38,14 +38,11 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // Sign out first to ensure clean state
       await FirebaseAuth.instance.signOut();
-
       final user = await _authService.signInWithGoogle();
       if (!mounted) return;
 
       if (user != null) {
-        // Load user data
         await context.read<app_auth.AuthProvider>().loadUser();
         context.read<app_auth.AuthProvider>().setUser(user);
 
@@ -55,6 +52,31 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Đăng nhập thất bại: $e')));
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Future<void> _handleFacebookSignIn(BuildContext context) async {
+    setState(() => _isLoading = true);
+
+    try {
+      final user = await _authService.signInWithFacebook();
+      if (!mounted) return;
+
+      if (user != null) {
+        await context.read<app_auth.AuthProvider>().loadUser();
+        context.read<app_auth.AuthProvider>().setUser(user);
+        context.go('/home');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Đăng nhập Facebook thất bại: $e')),
+        );
+      }
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -159,15 +181,16 @@ class _LoginScreenState extends State<LoginScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildSocialButton(LoginImages.kLogoFacebook, () {}),
+              _buildSocialButton(
+                LoginImages.kLogoFacebook,
+                () => _handleFacebookSignIn(context),
+              ),
               SizedBox(width: Sizes.WIDTH_16.w),
               _buildSocialButton(LoginImages.kLogoGoogle, () {
                 _handleSignIn(context);
               }),
               SizedBox(width: Sizes.HEIGHT_16.w),
-              _buildSocialButton(LoginImages.kLogoGithub, () {
-                print('Facebook Sign In');
-              }),
+              _buildSocialButton(LoginImages.kLogoGithub, () {}),
             ],
           ),
 
@@ -188,6 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Expanded _buildForm() {
+    final theme = Theme.of(context);
     return Expanded(
       flex: 3,
       child: Form(
@@ -195,24 +219,13 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Email',
-              style: GoogleFonts.rubik(
-                fontSize: 16,
-                letterSpacing: 0.2,
-                color: Color(0xFF424242),
-              ),
-            ),
+            Text('Email'),
 
             TextField(
               controller: _emailController,
               autofocus: false,
 
-              style: GoogleFonts.rubik(
-                fontSize: 14,
-                letterSpacing: 0.2,
-                color: Color(0xFFBDBDBD),
-              ),
+              style: theme.textTheme.labelLarge,
               decoration: InputDecoration(
                 // 1) Icon ổ khoá
                 prefixIcon: Icon(
@@ -231,10 +244,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   minHeight: Sizes.HEIGHT_36.h,
                 ),
                 hintText: AppTexts.emailHint,
-                hintStyle: GoogleFonts.rubik(
-                  fontSize: 14,
-                  letterSpacing: 0.2,
-                  color: Color(0xFFBDBDBD),
+                hintStyle: theme.textTheme.labelLarge!.copyWith(
+                  color: Color.fromARGB(255, 215, 206, 206),
                 ),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFBDBDBD), width: 1),
@@ -245,14 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
               keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(height: Sizes.HEIGHT_16.h),
-            Text(
-              'Password',
-              style: GoogleFonts.rubik(
-                fontSize: 16,
-                letterSpacing: 0.2,
-                color: Color(0xFF424242),
-              ),
-            ),
+            Text('Password', style: theme.textTheme.bodyMedium),
             TextField(
               controller: _passwordController,
               autofocus: false,
@@ -265,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: InputDecoration(
                 // 1) Icon ổ khoá
                 prefixIcon: Icon(
-                  Icons.email_outlined,
+                  Icons.lock_outline,
                   color: Color(0xFFBDBDBD),
                   size: 20,
                 ),
@@ -273,17 +277,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // 2) Dấu '|' ngay sau icon
                 prefixText: '| ',
-                prefixStyle: TextStyle(color: Color(0xFFBDBDBD), fontSize: 14),
+                prefixStyle: theme.textTheme.bodySmall!.copyWith(
+                  fontWeight: FontWeight.w300,
+                ),
                 prefixIconConstraints: BoxConstraints(
                   minWidth: Sizes.WIDTH_26.w,
                   maxWidth: Sizes.WIDTH_26.w,
                   minHeight: Sizes.HEIGHT_36.h,
                 ),
                 hintText: AppTexts.passwordHint,
-                hintStyle: GoogleFonts.rubik(
-                  fontSize: 14,
-                  letterSpacing: 0.2,
-                  color: Color(0xFFBDBDBD),
+                hintStyle: theme.textTheme.labelLarge!.copyWith(
+                  color: Colors.grey[500],
                 ),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFFBDBDBD), width: 1),

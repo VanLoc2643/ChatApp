@@ -14,3 +14,7 @@ class LoginImages {
 class HomeImages {
   static const String kProfileImage = '${ImagePath.base}/profile.jpg';
 }
+
+class DummyImages {
+  static const String kAvatarImage = 'https://i.imgur.com/BoN9kdC.png';
+}

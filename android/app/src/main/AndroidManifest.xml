@@ -1,8 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <application
-        android:label="appchat"
+        android:label="Messenger 2"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="672230295424300"/>
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="90aeacbc20da96fca56c8767f98d8872"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

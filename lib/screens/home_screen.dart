@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:appchat/Repository/user_repository.dart';
+import 'package:appchat/core/widgets/logout.dart';
 import 'package:appchat/model/AppUser.dart';
 import 'package:appchat/providers/auth_provider.dart';
-import 'package:appchat/theme/images.dart';
 import 'package:appchat/widgets/bottom_nav.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +17,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  File? _capturedImage;
+  Future<void> _openCamera() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      setState(() {
+        _capturedImage = File(pickedFile.path);
+      });
+      // Bạn có thể xử lý ảnh ở đây (upload, crop, v.v.)
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Đã chụp ảnh thành công!')));
+    }
+  }
+
   List<AppUser> _searchResults = [];
   bool _isSearching = false;
   bool _isSearchMode = false;
@@ -71,21 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onTapLogOut: () async {
           final shouldLogout = await showDialog<bool>(
             context: context,
-            builder:
-                (context) => AlertDialog(
-                  title: const Text('Logout'),
-                  content: const Text('Bạn có chắc chắn muốn đăng xuất không?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      child: const Text('Logout'),
-                    ),
-                  ],
-                ),
+            builder: (context) => Logout(),
           );
           if (shouldLogout == true) {
             await authProvider.signOut();
@@ -98,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _isSearchMode = true;
           });
         },
+        onCameraTap: _openCamera,
       ),
       body:
           _isSearchMode
@@ -114,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundImage: NetworkImage(user.photoUrl),
                         ),
                         title: Text(user.name),
-                        subtitle: Text(user.email),
+
                         trailing: ElevatedButton(
                           onPressed: () async {
                             await _handleSendRequest(user);
@@ -168,14 +174,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.onTapLogOut,
     required this.onSearchChanged,
     required this.onSearchTap,
+    required this.onCameraTap,
   });
 
   final VoidCallback onTapLogOut;
   final ValueChanged<String> onSearchChanged;
   final VoidCallback onSearchTap;
-
+  final VoidCallback onCameraTap;
   @override
   Widget build(BuildContext context) {
+    final applocalizations = AppLocalizations.of(context)!;
+    final currentUser = Provider.of<AuthProvider>(context).appUser;
+    if (currentUser == null) {
+      return AppBar(title: Text(applocalizations.chat), centerTitle: true);
+    }
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -186,14 +198,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  children: const [
+                  children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: AssetImage(HomeImages.kProfileImage),
+                      backgroundImage: AssetImage(currentUser!.photoUrl),
                     ),
                     SizedBox(width: 12),
                     Text(
-                      'Chats',
+                      applocalizations.chat,
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -204,7 +216,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 Row(
                   children: [
-                    _iconButton(Icons.camera_alt),
+                    _iconButton(Icons.camera_alt, onTap: onCameraTap),
                     const SizedBox(width: 10),
                     _iconButton(Icons.logout, onTap: onTapLogOut),
                   ],
@@ -228,7 +240,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   Expanded(
                     child: TextField(
                       decoration: const InputDecoration(
-                        hintText: 'Search',
+                        hintText: 'Search ',
                         border: InputBorder.none,
                         isDense: true,
                       ),

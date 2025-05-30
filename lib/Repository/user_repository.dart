@@ -1,5 +1,6 @@
 import 'package:appchat/model/AppUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserRepository {
   final _firestore = FirebaseFirestore.instance;
@@ -12,7 +13,6 @@ class UserRepository {
     final doc = await docRef.get(); //! Lấy dữ liệu user cụ thể
 
     if (!doc.exists) {
-      // handle user not existing
       await docRef.set(user.toMap());
     } else {
       await docRef.update({'lastSeen': FieldValue.serverTimestamp()});
@@ -24,7 +24,6 @@ class UserRepository {
     if (doc.exists) {
       return AppUser.fromMap(doc.data()!);
     }
-
     return null;
   }
 
@@ -57,7 +56,6 @@ class UserRepository {
     String currentUserId,
     String requestUid,
   ) async {
-    // Cập nhật danh sách bạn bè của người nhận và người gửi
     await _usersRef.doc(currentUserId).update({
       'friends': FieldValue.arrayUnion([requestUid]),
       'requests': FieldValue.arrayRemove([requestUid]),
@@ -77,5 +75,30 @@ class UserRepository {
       }
     }
     return friends;
+  }
+
+  Future<List<AppUser>> getUsersByIds(List<String> userIds) async {
+    final users = await Future.wait(userIds.map((id) => getUserById(id)));
+    return users.whereType<AppUser>().toList();
+  }
+
+  Future<void> removeFriend(String friendId) async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) return;
+
+    final batch = _firestore.batch();
+
+    final currentUserRef = _firestore.collection('users').doc(currentUser.uid);
+    batch.update(currentUserRef, {
+      'friends': FieldValue.arrayRemove([friendId]),
+    });
+
+    // Remove current user from friend's friends list
+    final friendRef = _firestore.collection('users').doc(friendId);
+    batch.update(friendRef, {
+      'friends': FieldValue.arrayRemove([currentUser.uid]),
+    });
+
+    await batch.commit();
   }
 }
